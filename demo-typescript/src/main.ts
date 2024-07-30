@@ -22,3 +22,30 @@ function printId(id: number | string) {
   printId(10)
   printId("test")
   printId("new value")
+
+
+type PointType = {
+    x: number,
+    y: number
+}
+
+interface PointInterface {
+    x:number,
+    y:number
+}
+
+interface PointInterface {
+    z:number
+}
+
+
+
+type Point = PointInterface 
+
+const element = {x:10, y:100}
+
+const newElement = element as Point
+
+
+
+
