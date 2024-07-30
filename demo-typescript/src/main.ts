@@ -91,3 +91,14 @@ persons.forEach(person => {
    
 })
 
+type greeterFunction = {
+    (message:string): void,
+    name: string
+}
+
+function useGreeterFunction(element: greeterFunction, message:string):void {
+    console.log(element.name)
+    element(message)
+}
+
+useGreeterFunction((a)=>{console.log("add some extra" + a)}, "ihab")
