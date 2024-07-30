@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "nodemon dist/main.js",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsc --watch & nodemon dist/main.js"
+  }
+}
