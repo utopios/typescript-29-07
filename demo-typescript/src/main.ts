@@ -102,3 +102,23 @@ function useGreeterFunction(element: greeterFunction, message:string):void {
 }
 
 useGreeterFunction((a)=>{console.log("add some extra" + a)}, "ihab")
+
+function firstElement<Type>(arr: Type[]): Type | undefined {
+    return arr[0];
+}
+
+firstElement(["e", "e3"])
+firstElement([10, 30])
+firstElement([true, false])
+
+
+function makeDate(timestamp: number): Date;
+function makeDate(m: number, d: number, y: number): Date;
+
+function makeDate(mOrTimestamp: number, d?: number, y?: number): Date {
+    return new Date()
+}
+
+function getName({name}: Person):void {
+    console.log(name)
+}
