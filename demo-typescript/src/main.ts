@@ -204,11 +204,17 @@ export let electronicItem : InventoryItem<RealElectronicProduct> & Groupable = {
     }
 }
 const inventory : Inventory<InventoryItem<RealElectronicProduct>>= new Inventory()
+
+
 inventory.addItem(electronicItem)
-inventory.updateItem(100,{price: 90})
+
+inventory.adjustPrices(10)
+inventory.adjustPrices("10")
+
+//inventory.updateItem(100,{price: 90})
 console.log(inventory.findItemsByCategory("Electronics"))
 console.log(electronicItem)
 
-const groupManager: GroupManager<InventoryItem<RealElectronicProduct> & Groupable> = new GroupManager()
+const groupManager: GroupManager<InventoryItem<RealElectronicProduct>> = new GroupManager()
 
-groupManager.groupItems(inventory.findItemsByCategory("Electronics") as Array<InventoryItem<RealElectronicProduct> & Groupable>)
+groupManager.groupItems(inventory.findItemsByCategory("Electronics") as Array<InventoryItem<RealElectronicProduct>>)

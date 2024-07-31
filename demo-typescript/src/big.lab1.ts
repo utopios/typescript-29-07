@@ -9,7 +9,7 @@ type Category = 'Electronics' | 'Clothing' | 'Food';
 
 interface Item<T> extends Groupable {
     id: ID;
-    category : Category;
+    category: Category;
     metadata: T | number
 }
 
@@ -29,22 +29,36 @@ export interface RealElectronicProduct {
     model: string
 }
 
+type Adjustment<T> = T | string
 export class Inventory<T extends InventoryItem<any>> {
     private items: T[] = [];
 
-    addItem(item: T):void {
+    addItem(item: T): void {
         this.items.push(item)
     }
 
     updateItem(id: ID, updateData: Partial<T>): void {
         const item = this.items.find(item => item.id === id)
-        if(item) {
+        if (item) {
             Object.assign(item, updateData)
         }
     }
 
     findItemsByCategory(category: Category): T[] {
         return this.items.filter(item => item.category === category)
+    }
+
+    adjustPrices<T>(adjustment: Adjustment<T>): void {
+        this.items.forEach(item => {
+            if (typeof adjustment === 'string') {
+                console.log("string adjustement")
+                const percentage = parseFloat(adjustment) / 100;
+                item.price *= (1 + percentage);
+            } else if(typeof adjustment === 'number') {
+                console.log("number adjustement")
+                item.price += adjustment;
+            }
+        });
     }
 
 }
@@ -55,14 +69,15 @@ export interface Groupable {
 
 export class GroupManager<T extends Groupable> {
     groupItems(items: T[]): Map<string, T[]> {
-      const groups = new Map<string, T[]>();
-      items.forEach(item => {
-        const key = item.getKey();
-        const group = groups.get(key) || [];
-        group.push(item);
-        groups.set(key, group);
-      });
-      return groups;
+        const groups = new Map<string, T[]>();
+        items.forEach(item => {
+            const key = item.getKey();
+            const group = groups.get(key) || [];
+            group.push(item);
+            groups.set(key, group);
+        });
+        return groups;
     }
-  }
-  
+}
+
+
