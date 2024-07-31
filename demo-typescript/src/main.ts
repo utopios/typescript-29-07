@@ -1,6 +1,6 @@
 // const firstname:string = "ihab"
 
-import { Product, RealElectronicProduct } from "./big.lab1";
+import { Inventory, InventoryItem, Product, RealElectronicProduct } from "./big.lab1";
 
 // let anyValue : any = 10
 
@@ -189,7 +189,7 @@ import { Product, RealElectronicProduct } from "./big.lab1";
 
 // type CustomProduct = {color: string}
 
-export let electronicItem : Product<RealElectronicProduct> = {
+export let electronicItem : InventoryItem<RealElectronicProduct> = {
     id: 100,
     category: 'Electronics',
     metadata: {
@@ -197,7 +197,11 @@ export let electronicItem : Product<RealElectronicProduct> = {
         model: 'X500'
     },
     name: 'e1',
-    price: 100
+    price: 100,
+    quantiy: 1000
 }
-
+const inventory : Inventory<InventoryItem<RealElectronicProduct>>= new Inventory()
+inventory.addItem(electronicItem)
+inventory.updateItem(100,{price: 90})
+console.log(inventory.findItemsByCategory("Electronics"))
 console.log(electronicItem)

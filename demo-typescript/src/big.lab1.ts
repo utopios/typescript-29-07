@@ -20,7 +20,7 @@ export interface Product<T> extends Item<T> {
 }
 
 
-interface InventoryItem<T> extends Product<T> {
+export interface InventoryItem<T> extends Product<T> {
     quantiy: number
 }
 
@@ -29,7 +29,7 @@ export interface RealElectronicProduct {
     model: string
 }
 
-class Inventory<T extends InventoryItem<any>> {
+export class Inventory<T extends InventoryItem<any>> {
     private items: T[] = [];
 
     addItem(item: T):void {
