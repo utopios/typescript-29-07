@@ -29,3 +29,22 @@ export interface RealElectronicProduct {
     model: string
 }
 
+class Inventory<T extends InventoryItem<any>> {
+    private items: T[] = [];
+
+    addItem(item: T):void {
+        this.items.push(item)
+    }
+
+    updateItem(id: ID, updateData: Partial<T>): void {
+        const item = this.items.find(item => item.id === id)
+        if(item) {
+            Object.assign(item, updateData)
+        }
+    }
+
+    findItemsByCategory(category: Category): T[] {
+        return this.items.filter(item => item.category === category)
+    }
+
+}
