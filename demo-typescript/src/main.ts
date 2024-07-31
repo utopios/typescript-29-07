@@ -101,7 +101,13 @@ function useGreeterFunction(element: greeterFunction, message:string):void {
     element(message)
 }
 
-useGreeterFunction((a)=>{console.log("add some extra" + a)}, "ihab")
+const greeter: greeterFunction = ((message: string) => {
+    console.log("add some extra " + message);
+  }) as greeterFunction;
+
+greeter.name = "added name"
+
+useGreeterFunction(greeter, "ihab")
 
 function firstElement<Type>(arr: Type[]): Type | undefined {
     return arr[0];
@@ -122,3 +128,15 @@ function makeDate(mOrTimestamp: number, d?: number, y?: number): Date {
 function getName({name}: Person):void {
     console.log(name)
 }
+
+import {formatDate} from "./lab4"
+
+console.log(formatDate("2024-07-29", true))
+
+import { Point } from "./demo-obj";
+
+const point = new Point(10, "20")
+const point2 = new Point("value")
+
+point.display()
+
