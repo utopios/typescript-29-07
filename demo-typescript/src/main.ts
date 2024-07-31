@@ -1,5 +1,7 @@
 // const firstname:string = "ihab"
 
+import { Product, RealElectronicProduct } from "./big.lab1";
+
 // let anyValue : any = 10
 
 // anyValue = "test"
@@ -141,35 +143,61 @@
 // point.display()
 
 
-interface IElement {
-    id:string
-  }
-  class Stack<T extends IElement> {
-    private _stack: T[];
-    constructor() {
-       this._stack = [];    
-    }
-    push(element:T) {
-        this._stack.push(element);
-    }
-    getElementById(id:string): T | undefined {
-        return this._stack.find(e => e.id === id);
-    }
+// interface IElement {
+//     id:string
+//   }
+//   class Stack<T extends IElement> {
+//     private _stack: T[];
+//     constructor() {
+//        this._stack = [];    
+//     }
+//     push(element:T) {
+//         this._stack.push(element);
+//     }
+//     getElementById(id:string): T | undefined {
+//         return this._stack.find(e => e.id === id);
+//     }
 
-    get stack():T[] {
-        return this._stack
-    }
-  }
-  type StackElement = {name?:string} & IElement
+//     get stack():T[] {
+//         return this._stack
+//     }
+//   }
+//   type StackElement = {name?:string} & IElement
 
-  let myStack: Stack<StackElement> = new Stack();
-  myStack.push({id: '&', name:'ihab'});
-  myStack.push({id: 'b'});
-  myStack.push({id: 'c'});
+//   let myStack: Stack<StackElement> = new Stack();
+//   myStack.push({id: '&', name:'ihab'});
+//   myStack.push({id: 'b'});
+//   myStack.push({id: 'c'});
 
-  myStack.stack.forEach((e:StackElement) => {
-    console.log(e.name)
-  })
+//   myStack.stack.forEach((e:StackElement) => {
+//     console.log(e.name)
+//   })
   
-  console.log(myStack.getElementById('b'));
+//   console.log(myStack.getElementById('b'));
 
+
+
+// interface Item<T> {
+//     id: number
+//     name:number
+//     category: "Clothing" | "Food"
+// }
+
+// interface Product<T> extends Item<T> {
+//     price:number
+// }
+
+// type CustomProduct = {color: string}
+
+export let electronicItem : Product<RealElectronicProduct> = {
+    id: 100,
+    category: 'Electronics',
+    metadata: {
+        wattage: 500,
+        model: 'X500'
+    },
+    name: 'e1',
+    price: 100
+}
+
+console.log(electronicItem)
