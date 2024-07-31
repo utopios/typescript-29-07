@@ -7,7 +7,7 @@ type Category = 'Electronics' | 'Clothing' | 'Food';
 //     Food = "Food"
 // }
 
-interface Item<T> {
+interface Item<T> extends Groupable {
     id: ID;
     category : Category;
     metadata: T | number
@@ -48,3 +48,21 @@ export class Inventory<T extends InventoryItem<any>> {
     }
 
 }
+
+export interface Groupable {
+    getKey(): string;
+}
+
+export class GroupManager<T extends Groupable> {
+    groupItems(items: T[]): Map<string, T[]> {
+      const groups = new Map<string, T[]>();
+      items.forEach(item => {
+        const key = item.getKey();
+        const group = groups.get(key) || [];
+        group.push(item);
+        groups.set(key, group);
+      });
+      return groups;
+    }
+  }
+  

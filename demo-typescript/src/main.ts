@@ -1,6 +1,6 @@
 // const firstname:string = "ihab"
 
-import { Inventory, InventoryItem, Product, RealElectronicProduct } from "./big.lab1";
+import { GroupManager, Groupable, Inventory, InventoryItem, Product, RealElectronicProduct } from "./big.lab1";
 
 // let anyValue : any = 10
 
@@ -189,7 +189,7 @@ import { Inventory, InventoryItem, Product, RealElectronicProduct } from "./big.
 
 // type CustomProduct = {color: string}
 
-export let electronicItem : InventoryItem<RealElectronicProduct> = {
+export let electronicItem : InventoryItem<RealElectronicProduct> & Groupable = {
     id: 100,
     category: 'Electronics',
     metadata: {
@@ -198,10 +198,17 @@ export let electronicItem : InventoryItem<RealElectronicProduct> = {
     },
     name: 'e1',
     price: 100,
-    quantiy: 1000
+    quantiy: 1000,
+    getKey() {
+        return this.category
+    }
 }
 const inventory : Inventory<InventoryItem<RealElectronicProduct>>= new Inventory()
 inventory.addItem(electronicItem)
 inventory.updateItem(100,{price: 90})
 console.log(inventory.findItemsByCategory("Electronics"))
 console.log(electronicItem)
+
+const groupManager: GroupManager<InventoryItem<RealElectronicProduct> & Groupable> = new GroupManager()
+
+groupManager.groupItems(inventory.findItemsByCategory("Electronics") as Array<InventoryItem<RealElectronicProduct> & Groupable>)
