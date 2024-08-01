@@ -231,128 +231,150 @@ const inventory: Inventory<InventoryItem<RealElectronicProduct>> = new Inventory
 //     return obj[key]
 // }
 
-interface User {
-    name: String,
-    isAdmin: boolean,
-    age: number
+// interface User {
+//     name: String,
+//     isAdmin: boolean,
+//     age: number
+// }
+
+// type SecureUser<T extends User> = T['age'] extends true ? T & { adminSecret: string } : T
+
+// function enhanceUser<T extends User>(user: T): SecureUser<T> {
+//     if (!user.isAdmin) {
+//         return user as SecureUser<T>
+//     } else {
+//         return { ...user, adminSecret: "erzere" }
+//     }
+// }
+
+// console.log(enhanceUser({ name: "ihab", isAdmin: true, age: 10 }))
+
+// interface Person {
+//     name: String,
+//     age: number
+// }
+
+
+// type PartialPerson = {
+//     [k in keyof Person]?: Person[k]
+// }
+
+
+
+// type ReadOnlyPerson = {
+//     readonly [k in keyof Person]?: Person[k]
+// }
+
+
+// function log(target: any, name: string, descriptor: PropertyDescriptor) {
+
+//     console.log(target)
+//     console.log(name)
+//     console.log(descriptor)
+
+//     const original = descriptor.value;
+//     descriptor.value = function (...args: any[]) {
+//         console.log(`Calling ${name} with`, args);
+//         const result = original.apply(this, args);
+//         console.log(`Result of ${name} is`, result);
+//         return result;
+//     };
+//     return descriptor;
+// }
+
+
+
+// function enhanceLog(kind: string) {
+
+//     return function (target: any, name: string, descriptor: PropertyDescriptor) {
+//         console.log(target)
+//         console.log(name)
+//         console.log(descriptor)
+
+//         const original = descriptor.value;
+//         descriptor.value = function (...args: any[]) {
+//             if(kind === "debug") {
+//                 console.log("This debug method")
+//             }
+//             console.log(`Calling ${name} with`, args);
+//             const result = original.apply(this, args);
+//             console.log(`Result of ${name} is`, result);
+//             return result;
+//         };
+//         return descriptor;
+//     }
+// }
+
+// class Calculator {
+
+
+//     @enhanceLog("debug")
+//     add(x: number, y: number) {
+//         return x + y
+//     }
+
+//     @enhanceLog("log")
+//     multiplaction(x:number, y:number) {
+//         return x * y
+//     }
+// }
+
+// const cal = new Calculator()
+
+// cal.add(10, 20)
+// cal.multiplaction(1,5)
+
+
+// //DEcoration of class
+
+// function classDecorator<T extends {new(...args:any[]):{}}>(constructor:T) {
+//     console.log('Class decorated:', constructor);
+//     return class extends constructor {
+//         newProperty = "new property";
+//         hello = "override";
+//     }
+// }
+
+// function classDecorator2<T extends {new(...args:any[]):{}}>(constructor:T) {
+//     console.log('Class decorated:', constructor);
+    
+//     return class extends constructor {
+//         hello = "override 2";
+//         hello2 = "hello2"
+//     }
+// }
+
+// @classDecorator2
+// class MyClass {
+//     property = "property";
+//     hello: string;
+//     constructor(m: string) {
+//         this.hello = m;
+//     }
+// }
+
+// const m = new MyClass("value of hello");
+
+// console.log(m)
+
+
+function convertToNumber(input: string): number {
+    let number = parseFloat(input);
+    if (isNaN(number)) {
+        throw new Error("Input must be a valid number");
+    }
+    return number;
 }
-
-type SecureUser<T extends User> = T['age'] extends true ? T & { adminSecret: string } : T
-
-function enhanceUser<T extends User>(user: T): SecureUser<T> {
-    if (!user.isAdmin) {
-        return user as SecureUser<T>
-    } else {
-        return { ...user, adminSecret: "erzere" }
+function processUserData(input: string): void {
+    try {
+        let number = convertToNumber(input);
+        console.log(`Le nombre entré est ${number}.`);
+    } catch (error) {
+        const err = error as Error
+        console.error(`An error occurred: ${err.message}`);
+    }finally {
+        
     }
 }
-
-console.log(enhanceUser({ name: "ihab", isAdmin: true, age: 10 }))
-
-interface Person {
-    name: String,
-    age: number
-}
-
-
-type PartialPerson = {
-    [k in keyof Person]?: Person[k]
-}
-
-
-
-type ReadOnlyPerson = {
-    readonly [k in keyof Person]?: Person[k]
-}
-
-
-function log(target: any, name: string, descriptor: PropertyDescriptor) {
-
-    console.log(target)
-    console.log(name)
-    console.log(descriptor)
-
-    const original = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-        console.log(`Calling ${name} with`, args);
-        const result = original.apply(this, args);
-        console.log(`Result of ${name} is`, result);
-        return result;
-    };
-    return descriptor;
-}
-
-
-
-function enhanceLog(kind: string) {
-
-    return function (target: any, name: string, descriptor: PropertyDescriptor) {
-        console.log(target)
-        console.log(name)
-        console.log(descriptor)
-
-        const original = descriptor.value;
-        descriptor.value = function (...args: any[]) {
-            if(kind === "debug") {
-                console.log("This debug method")
-            }
-            console.log(`Calling ${name} with`, args);
-            const result = original.apply(this, args);
-            console.log(`Result of ${name} is`, result);
-            return result;
-        };
-        return descriptor;
-    }
-}
-
-class Calculator {
-
-
-    @enhanceLog("debug")
-    add(x: number, y: number) {
-        return x + y
-    }
-
-    @enhanceLog("log")
-    multiplaction(x:number, y:number) {
-        return x * y
-    }
-}
-
-const cal = new Calculator()
-
-cal.add(10, 20)
-cal.multiplaction(1,5)
-
-
-//DEcoration of class
-
-function classDecorator<T extends {new(...args:any[]):{}}>(constructor:T) {
-    console.log('Class decorated:', constructor);
-    return class extends constructor {
-        newProperty = "new property";
-        hello = "override";
-    }
-}
-
-function classDecorator2<T extends {new(...args:any[]):{}}>(constructor:T) {
-    console.log('Class decorated:', constructor);
-    return class extends constructor {
-        hello = "override 2";
-        hello2 = "hello2"
-    }
-}
-
-@classDecorator2
-@classDecorator
-class MyClass {
-    property = "property";
-    hello: string;
-    constructor(m: string) {
-        this.hello = m;
-    }
-}
-
-const m = new MyClass("value of hello");
-
-console.log(m)
+processUserData("42");  
+processUserData("abc");
