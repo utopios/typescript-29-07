@@ -1,0 +1,17 @@
+{
+  "name": "final-labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "nodemon dist/index.js",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsc --watch & nodemon dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
