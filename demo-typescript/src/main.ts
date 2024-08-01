@@ -266,21 +266,21 @@ const inventory: Inventory<InventoryItem<RealElectronicProduct>> = new Inventory
 // }
 
 
-// function log(target: any, name: string, descriptor: PropertyDescriptor) {
+function log(target: any, name: string, descriptor: PropertyDescriptor) {
 
-//     console.log(target)
-//     console.log(name)
-//     console.log(descriptor)
+    console.log(target)
+    console.log(name)
+    console.log(descriptor)
 
-//     const original = descriptor.value;
-//     descriptor.value = function (...args: any[]) {
-//         console.log(`Calling ${name} with`, args);
-//         const result = original.apply(this, args);
-//         console.log(`Result of ${name} is`, result);
-//         return result;
-//     };
-//     return descriptor;
-// }
+    const original = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+        console.log(`Calling ${name} with`, args);
+        const result = original.apply(this, args);
+        console.log(`Result of ${name} is`, result);
+        return result;
+    };
+    return descriptor;
+}
 
 
 
@@ -358,23 +358,84 @@ const inventory: Inventory<InventoryItem<RealElectronicProduct>> = new Inventory
 // console.log(m)
 
 
-function convertToNumber(input: string): number {
-    let number = parseFloat(input);
-    if (isNaN(number)) {
-        throw new Error("Input must be a valid number");
-    }
-    return number;
+// function convertToNumber(input: string): number {
+//     let number = parseFloat(input);
+//     if (isNaN(number)) {
+//         throw new Error("Input must be a valid number");
+//     }
+//     return number;
+// }
+// function processUserData(input: string): void {
+//     try {
+//         let number = convertToNumber(input);
+//         console.log(`Le nombre entré est ${number}.`);
+//     } catch (error) {
+//         const err = error as Error
+//         console.error(`An error occurred: ${err.message}`);
+//     }finally {
+
+//     }
+// }
+// processUserData("42");  
+// processUserData("abc");
+
+
+// class A {
+
+//     @log
+//     methodA() {
+
+//     }
+// }
+
+// class B extends A{
+//     methodA(): void {
+//         console.log("Before B")
+//         super.methodA()
+//     }
+// }
+
+// new B().methodA()
+
+
+interface CatchOptions {
+    logLevel: 'debug' | 'error';
+    notifyOnError: boolean;
 }
-function processUserData(input: string): void {
-    try {
-        let number = convertToNumber(input);
-        console.log(`Le nombre entré est ${number}.`);
-    } catch (error) {
-        const err = error as Error
-        console.error(`An error occurred: ${err.message}`);
-    }finally {
-        
+
+function CatchAndLog(options: CatchOptions) {
+    return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
+        const originalMethod = descriptor.value;
+        descriptor.value = function (...args: any[]) {
+            try {
+                return originalMethod.apply(this, args);
+            } catch (e) {
+                const error = e as Error
+                console.error(`Error in ${propertyKey}: ${error}`);
+                if (options.logLevel === 'debug') {
+                    console.debug(`Stack Trace for ${propertyKey}: ${error.stack}`);
+                }
+                if (options.notifyOnError) {
+                    console.log(`Notification sent for error in method ${propertyKey}`);
+                    throw e
+                }
+            }
+        };
+        return descriptor;
+    };
+}
+
+
+class PaymentProcessor {
+    @CatchAndLog({logLevel:"error", notifyOnError: false})
+    processPayment(amount: number, accountID: string) {
+        if (amount <= 0) {
+            throw new Error("Invalid amount for payment processing");
+        }
+        console.log(`Processing payment of $${amount} for account ${accountID}`);
     }
 }
-processUserData("42");  
-processUserData("abc");
+
+
+const processor = new PaymentProcessor();
+processor.processPayment(0, "12345");
