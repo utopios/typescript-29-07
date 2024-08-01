@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es6",                        // ECMAScript target version
+    "module": "commonjs",                   // Module system to use
+    "strict": true,                         // Enable strict type-checking options
+    "esModuleInterop": true,                // Enable interoperability between CommonJS and ES modules
+    "skipLibCheck": true,                   // Skip type checking of declaration files
+    "outDir": "./dist",
+    "sourceMap": true,
+    "allowJs": true,
+    "experimentalDecorators": true,    
+    "moduleResolution": "node",  
+    
+             
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.js"                          // Include all TypeScript files in the src folder
+  ],
+  "exclude": [
+    "node_modules"                          // Exclude the node_modules folder
+  ]
+}
